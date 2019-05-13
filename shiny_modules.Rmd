@@ -4,6 +4,7 @@ author: "Ted Laderas"
 date: "5/12/2019"
 output: 
   html_document:
+    highlight: tango
     toc: true
     toc_float: true
 ---
@@ -107,13 +108,17 @@ source("modules.R")
 
 ui <- fluidPage(
     #select_scatter_ui is how we initialize the ui module with id "mtcars"
-    select_scatter_ui(id = mtcars_id, var_choices = mtcars_var_choices)
+    select_scatter_ui(
+      id = mtcars_id,
+      var_choices = mtcars_var_choices)
 )
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
     #callModule on select_scatter_server with id "mtcars"
-    callModule(select_scatter_server, mtcars_id, data=mtcars)
+    callModule(select_scatter_server, 
+        id=mtcars_id, 
+        data=mtcars)
 }
 
 # Run the application 
@@ -151,7 +156,7 @@ ui <- fluidPage(
 )
 ```
 
-In our `server` function, we do the same, except with `callModule`:
+In our `server` function, we do the same, except with `callModule`, and pass our unique ids for our two modules:
 
 ```
 # Define server logic required to draw a histogram
@@ -163,7 +168,81 @@ server <- function(input, output) {
 }
 ```
 
-Then our two modules are independent of each other. Neat, huh?
+Then our two modules, `mtcars_id` and `iris_id` will run independent of each other. Neat, huh?
+
+## Anatomy of the ui component of a Shiny Module
+
+So far, we've seen how to use the module. Let's look at the actual module code now. Looking in `module_demo_01/modules.R`:
+
+```
+select_scatter_ui <- function(id, var_choices) {
+  #initialize a namespace ID function - our key to our namespace
+  ns <- NS(id)
+  
+  #return a tagList with our ui elements
+  tagList(
+    #note we have to wrap the input id in our namespace function ns()
+    selectInput(inputId = ns("x_var"), label="Select X Variable", 
+                choices=var_choices, selected = var_choices[1]),
+    plotOutput(ns("scatter_plot"))
+  )
+}
+```
+
+Let's take this code apart, looking at the signature first. 
+
+```
+select_scatter_ui <- function(id, var_choices) {
+  ...
+}
+```
+
+The first argument to a Shiny Module ui component is always `id` - this is a unique identifier for the namespace. So what does this line do?
+
+```
+ns <- NS(id)
+```
+
+This line makes a namespace function. Try out this code:
+
+```{r}
+id <- "newspace"
+ns <- NS(id)
+ns("x_variable")
+```
+
+You'll see that it just adds `newspace-` before our "x_variable" string, giving us: `newspace-x_variable`. Adding this extra bit (the namespace identifier), uniquely defines our element for our namespace. Thus, we can reuse a ui `selectInput` component with an id `select_box` in the namespaces `histogram` and `scatter` because in the app, the components are actually renamed as `histogram-select_box` and `scatter-select_box`. 
+
+As long as the namespace ids are unique for each module, they won't interfere with each other when the modules are running.
+
+Going back to the code in `modules.R`, we see that we initialize the namespace function `ns()` and we use it in identifying all of the ui components, the `selectInput()` and the `plotOutput()` functions. 
+
+```
+  #return a tagList with our ui elements
+  tagList(
+    #note we have to wrap the input id in our namespace function ns()
+    selectInput(inputId = ns("x_var"), 
+                  label="Select X Variable", 
+                  choices=var_choices, selected = var_choices[1]),
+    plotOutput(ns("scatter_plot"))
+  )
+```
+
+## Anatomy of the server component of a Shiny Module
+
+Server components are slightly different. They are also defined as a function, but they have a required function signature:
+
+```
+select_scatter_server <- function(input, output, session, data) {
+  ...
+}
+```
+
+Of the four arguments in the function signature, three are required: `input`, `output`, and `session`.  If you look at how the `server` function is defined, you will notice that it uses `input` and `output`. 
+
+We've added the `data` argument because it lets us customize the module.
+
+What about the namespace identifier? Remember, it gets handled by `callModule` and so we don't need to explicitly refer to it.
 
 ## TODO: Chaining Modules with reactives
 
