@@ -14,17 +14,36 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Why Shiny Modules?
 
-There are two reasons why you'd want to modularize your shiny code.
+There are two main reasons why you'd want to modularize your shiny code.
 
-1. **Don't Repeat Yourself**. 
+1. **Don't Repeat Yourself**. One issue with monolithic Shiny apps is that it is difficult to reuse parts of them. By taking a little more time and designing each part of your app so they are modular with Shiny modules. 
 
-2. **Managing all of the ids in a global namespace is difficult**. Remember that each ui element needs a unique id. As you add more and more ui elements, it becomes difficult to name and track these. Shiny modules give each module pair their own namespace.
+2. **Managing all of the ids in a global namespace is difficult**. Remember that for a shiny app, each ui element needs a unique id. As you add more and more ui elements, it becomes difficult to name and track all of these. Shiny modules give each module pair their own namespace, which means that you can reuse element ids without worry. 
 
 The goal of this document is to get you to the point where you feel comfortable with building and using Shiny Modules in your work.
 
 ## Shiny Module Concepts
 
 A Shiny module usually will have two functions: a `ui` functions, and a `server` function. They are tied together by a *namespace* id, so they know what *namespace* to look into. 
+
+A *namespace* can be thought of an isolated little world where you can reuse ids without worries. Say I had two different parts of my application, a histogram, and a scatterplot, and they both have `selectInputs`. If we don't use modules, we have to use unique ids for both of these selectInputs. For example, we might use 
+
+```
+selectInput(id = "select_box_histogram")
+```
+for the histogram, and
+
+```
+selectInput(id = "select_box_scatter")
+```
+
+for the scatterplot.
+
+Keeping track of these unique ids is a pain. So, let's make two different *namespaces* for each part of these apps, one called `histogram` and one called `scatter`. 
+
+If I have an id called `select_box` in the `histogram` namespace, it will not collide (cause Shiny to throw up its hands in confusion) for an id called `select_box` in the `scatter` namespace.
+
+Another consequence of namespaces is that you can reuse code and have the code each have an independent namespace.
 
 I try to use the naming convention of `MODULENAME_ui` for the `ui` function, and `MODULENAME_server` for the server function. 
 
@@ -144,7 +163,7 @@ server <- function(input, output) {
 }
 ```
 
-Then our two modules are independent of each other.
+Then our two modules are independent of each other. Neat, huh?
 
 ## TODO: Chaining Modules with reactives
 
