@@ -240,10 +240,28 @@ select_scatter_server <- function(input, output, session, data) {
 
 Of the four arguments in the function signature, three are required: `input`, `output`, and `session`.  If you look at how the `server` function is defined, you will notice that it uses `input` and `output`. 
 
-We've added the `data` argument because it lets us customize the module.
+We've added the `data` argument because it lets us customize the module for our dataset.
 
 What about the namespace identifier? Remember, it gets handled by `callModule` and so we don't need to explicitly refer to it.
 
+The actual code in `select_scatter_server()` is pretty much identical to regular server code. Note we are just assigning our `renderPlot` to `output$scatter_plot` as usual, not `output$ns("scatter_plot")`. Again, `callModule` handles the namespacing for our server function.
+
+```
+select_scatter_server <- function(input, output, session, data) {
+  
+  output$scatter_plot <- renderPlot({
+    #notice we don't use ns() here to refer to input objects - 
+    #this is handled by callModule
+    x_var <- input$x_var
+
+    data %>% ggplot(aes_string(x=x_var)) +
+      geom_histogram()
+    
+  })
+```
+
 ## TODO: Chaining Modules with reactives
+
+
 
 ## TODO: Nesting Modules
