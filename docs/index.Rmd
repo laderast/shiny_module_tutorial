@@ -280,14 +280,12 @@ decorate("hist_mod") %>%
 select_hist_server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
 
-    output$hist_plot <- 
-      renderPlot({
-    #notice we don't use ns() here to refer to input objects - 
-    #this is handled by callModule
-    x_var <- input$x_var
+    output$hist_plot <- renderPlot({
+      #notice we don't use ns() here to refer to input objects
+      x_var <- input$x_var
 
-    data %>% ggplot(aes_string(x=x_var)) +
-      geom_histogram()
+      data %>% ggplot(aes_string(x=x_var)) +
+        geom_histogram()
     
     })
     
@@ -299,7 +297,7 @@ select_hist_server <- function(id, data) {
 ```{r echo=FALSE}
 decorate("hist_serv") %>%
   flair("moduleServer", background="#ffb700") %>%
-  flair_lines(4:13)
+  flair_lines(4:11)
 ```
 
 - .bg-gold[`moduleServer()`] encapsulates your server code (in .bg-yellow[yellow])
