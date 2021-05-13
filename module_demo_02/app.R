@@ -3,32 +3,33 @@
 library(shiny)
 library(ggplot2)
 library(dplyr)
+library(palmerpenguins)
 
 data(mtcars)
-mtcars_id <- "mtcars_mod"
 mtcars <- data.frame(mtcars)
 mtcars_var_choices = colnames(mtcars)
 
-data(iris)
-iris_id <- "iris_mod"
-iris_var_choices <- colnames(iris)
+data(penguins)
+penguins <- penguins %>%
+    select(where(is.numeric))
+penguin_var_choices <- colnames(penguins)
 
 #load the module code
 source("modules.R")
 
 ui <- fluidPage(
-    #select_scatter_ui is how we initialize the ui module with id "mtcars"
-    select_scatter_ui(id = mtcars_id, var_choices = mtcars_var_choices),
-    #use select_scatter_ui with iris data
-    select_scatter_ui(id = iris_id, var_choices = iris_var_choices)
+    #select_hist_ui is how we initialize the ui module with id "mtcars"
+    select_hist_ui(id = "mtcars_module", var_choices = mtcars_var_choices),
+    #use select_hist_ui with penguin data
+    select_hist_ui(id = "penguins_module", var_choices = penguin_var_choices)
 )
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-    #callModule on select_scatter_server with mtcars_id
-    callModule(select_scatter_server, mtcars_id, data=mtcars)
-    #callModule on select_scatter_server with iris_id
-    callModule(select_scatter_server, iris_id, data=iris)
+    #callModule on select_hist_server with mtcars_id
+    select_hist_server(id= "mtcars_module", data=mtcars)
+    #callModule on select_hist_server with penguin_id
+    select_hist_server(id= "penguins_module", data=penguins)
 }
 
 # Run the application 
