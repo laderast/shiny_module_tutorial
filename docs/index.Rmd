@@ -1,5 +1,5 @@
 ---
-title: "Shiny Modules: Why?"
+title: "Shiny Modules: Why you might want to use them"
 author: "Ted Laderas"
 institute: "DNAnexus"
 date: "`r Sys.Date()`"
@@ -46,16 +46,11 @@ data(penguins)
 penguin_choices <- colnames(penguins)
 ```
 
----
-
 # Why Modules?
 
 - Motivating example
 - Why?
-- How they work, or What's a namespace?
-
-
-
+- module code
 
 ---
 # Motivating Example
@@ -273,7 +268,6 @@ decorate("hist_mod") %>%
   flair("select_hist_server",  background="#cdecff")
 ```
 
-
 ---
 # Server Module
 
@@ -281,7 +275,8 @@ decorate("hist_mod") %>%
 select_hist_server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
 
-    output$hist_plot <- renderPlot({
+    output$hist_plot <- 
+      renderPlot({
     #notice we don't use ns() here to refer to input objects - 
     #this is handled by callModule
     x_var <- input$x_var
@@ -301,14 +296,27 @@ decorate("hist_serv") %>%
   flair("moduleServer", background="#ffb700") #%>%
   #flair('ns("x_var")', background = "#ffb700") %>%
   #flair("select_hist_server",  background="#cdecff")
+
 ```
+
+- .bg-gold[`moduleServer()`] encapsulates your server code
+- be really careful with closing curly brackets and parentheses
 
 ---
 # Try them out
 
+Install `shiny`, `palmerpenguins`, `tidyverse` first
 
+Clone this repository:
+
+https://github.com/laderast/shiny_module_tutorial/
+
+Open up `shiny_module_tutorial.Rproj`
+
+- Individual apps are in `module_demo_01` and `module_demo_02`
 
 ---
-# For More Info:
+# For More Info/Thanks!
 
-
+- [Mastering Shiny: Modules](https://mastering-shiny.org/scaling-modules.html)
+- Slides were done using `xaringan`, `xaringanExtra`, and `flair`
