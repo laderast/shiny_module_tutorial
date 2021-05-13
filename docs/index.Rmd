@@ -215,9 +215,19 @@ decorate("server_min4") %>%
 ]
 
 ---
-<img src="module1.png" width=400>
-<img src="module2.png" width=400>
+# Two modules, two datasets
 
+.pull-left[
+- dataset is `mtcars`
+
+<img src="module1.png" width=500>
+
+]
+.pull-right[
+- dataset is `penguins`
+
+<img src="module2.png" width=400>
+]
 
 ---
 # You may want to use Shiny Modules if:
@@ -255,7 +265,7 @@ select_hist_ui <- function(id, var_choices){
 decorate("hist_mod") %>%
   flair("ns <- NS(id)", background="#ffb700") %>%
   flair('ns("x_var")', background = "#ffb700") %>%
-  flair('ns("hist_plot")') %>%
+  flair('ns("hist_plot")', background = "#ffb700") %>%
   flair("select_hist_server",  background="#cdecff")
 ```
 

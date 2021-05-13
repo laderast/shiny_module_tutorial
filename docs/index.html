@@ -145,9 +145,19 @@ class: center, middle, inverse, title-slide
 ]
 
 ---
-&lt;img src="module1.png" width=400&gt;
-&lt;img src="module2.png" width=400&gt;
+# Two modules, two datasets
 
+.pull-left[
+- dataset is `mtcars`
+
+&lt;img src="module1.png" width=500&gt;
+
+]
+.pull-right[
+- dataset is `penguins`
+
+&lt;img src="module2.png" width=400&gt;
+]
 
 ---
 # You may want to use Shiny Modules if:
@@ -169,7 +179,7 @@ class: center, middle, inverse, title-slide
 
 
 
-&lt;code class ='r hljs remark-code'&gt;select_hist_ui &lt;- function(id, var_choices){&lt;br&gt;&amp;nbsp;&amp;nbsp;#initialize a namespace ID function - our key to our namespace&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style="background-color:#ffb700"&gt;ns &lt;- NS(id)&lt;/span&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;#return a tagList with our ui elements&lt;br&gt;&amp;nbsp;&amp;nbsp;tagList(&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;#note we have to wrap the input id in our namespace function ns()&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;selectInput(inputId = &lt;span style="background-color:#ffb700"&gt;ns("x_var")&lt;/span&gt;, label="Select X Variable", &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;choices=var_choices, selected = var_choices[1]),&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;plotOutput(&lt;span style="background-color:#ffff7f"&gt;ns("hist_plot")&lt;/span&gt;)&lt;br&gt;&amp;nbsp;&amp;nbsp;)&lt;br&gt;}&lt;/code&gt;
+&lt;code class ='r hljs remark-code'&gt;select_hist_ui &lt;- function(id, var_choices){&lt;br&gt;&amp;nbsp;&amp;nbsp;#initialize a namespace ID function - our key to our namespace&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style="background-color:#ffb700"&gt;ns &lt;- NS(id)&lt;/span&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;#return a tagList with our ui elements&lt;br&gt;&amp;nbsp;&amp;nbsp;tagList(&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;#note we have to wrap the input id in our namespace function ns()&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;selectInput(inputId = &lt;span style="background-color:#ffb700"&gt;ns("x_var")&lt;/span&gt;, label="Select X Variable", &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;choices=var_choices, selected = var_choices[1]),&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;plotOutput(&lt;span style="background-color:#ffb700"&gt;ns("hist_plot")&lt;/span&gt;)&lt;br&gt;&amp;nbsp;&amp;nbsp;)&lt;br&gt;}&lt;/code&gt;
 
 - Initialize the namespace for `id` using `NS()` function
 - Need to refer to any controls/plots with ids wrapped in `ns()`, such as .bg-gold[`ns("x_var")`] or
