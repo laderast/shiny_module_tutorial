@@ -11,6 +11,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
 ```
 
 ## Why Shiny Modules?
@@ -54,7 +55,7 @@ We want to build a reusable module that will make a scatterplot when we pass a d
 
 Try running the app first so you can see what it does.
 
-```{r}
+```{r eval=FALSE}
 shiny::runApp("module_demo_01")
 ```
 
@@ -128,7 +129,7 @@ shinyApp(ui = ui, server = server)
 
 So what if we want to have two independent instances of our module? They will need separate namespace ids so their elements, such as the `selectInput` UI elements will not collide. Try running `module_demo_02` and notice that it has two instances.
 
-```{r}
+```{r eval=FALSE}
 shiny::runApp("module_demo_02")
 ```
 
