@@ -6,7 +6,7 @@ Slides are here: https://laderast.github.io/shiny_module_tutorial/#1
 
 Video: https://www.youtube.com/embed/K1WrY9tOGB0?start=322
 
-To start: clone or download this repository (using the green button on the top right), unzip if necessary, and open the `shiny_module_tutorial.rproj` in RStudio and open up the `shiny_modules.Rmd` RMarkdown file.
+To start: clone or download this repository (using the green button on the top right), unzip if necessary, and open the `shiny_module_tutorial.rproj` in RStudio.
 
 There are individual apps showing different ways to utilize modules in the individual `module_demo` folders. More to be added soon.
 
